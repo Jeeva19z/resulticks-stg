@@ -428,7 +428,7 @@
                 <div class="row justify-content-center text-center px-3 px-md-0">
                     <div class="col-12 col-md-8">
                         <h2 class="eg-primary-text fw-bold pb-3">What is RESUL?</h2>
-                        <p class="eg-dark px-3 p-md-0">
+                        <p class="eg-dark px-3 p-md">
                             RESUL is a real-time customer engagement platform built to help enterprises connect,
                             personalize, and grow efficiently. It combines data, messaging, and analytics in one system
                             so you can understand your audience, reach them through the right channels,
@@ -710,44 +710,55 @@
 
 
     </div>
+ <script>
+const tabs = document.querySelectorAll(".tab-item");
+const image = document.getElementById("tabImage"); // for desktop
+const mobileBoxes = document.querySelectorAll(".mobile-img-box"); // for mobile
 
+const tabImages = {
+    img1: "./assets/tab-one.svg",
+    img2: "./assets/tab-two.svg",
+    img3: "./assets/tab-three.svg",
+    img4: "./assets/tab-four.svg"
+};
 
-    <script>const resulTabs = document.querySelectorAll(".tab-item");
-        const mobileBoxes = document.querySelectorAll(".mobile-img-box");
+// Default State
+tabs[0].classList.add("active");
+tabs[0].querySelector(".eg-right-arrow").src = "./assets/right-arrow.png";
+mobileBoxes[0].innerHTML = `<img src="${tabImages.img1}" class="img-fluid w-100 py-3 d-md-none">`;
 
-        const images = {
-            img1: "./assets/tab-one.svg",
-            img2: "./assets/tab-two.svg",
-            img3: "./assets/tab-three.svg",
-            img4: "./assets/tab-four.svg"
-        };
+tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
 
-        // Default load
-        mobileBoxes[0].innerHTML = `<img src="${images.img1}" class="img-fluid w-100 py-3 d-md-none">`;
-        resulTabs[0].querySelector(".eg-right-arrow").src = "./assets/right-arrow.png"; // white arrow for active
-
-        resulTabs.forEach((tab, index) => {
-            tab.addEventListener("click", () => {
-
-                // Reset tab state + arrows
-                resulTabs.forEach(t => {
-                    t.classList.remove("active");
-                    t.querySelector(".eg-right-arrow").src = "./assets/black-arrow.png"; // black default
-                });
-
-                // Make current active
-                tab.classList.add("active");
-                tab.querySelector(".eg-right-arrow").src = "./assets/right-arrow.png"; // white arrow
-
-                // Switch mobile images
-                mobileBoxes.forEach(box => (box.innerHTML = ""));
-                let selected = tab.getAttribute("data-image");
-                mobileBoxes[index].innerHTML = `<img src="${images[selected]}" class="img-fluid w-100 py-3 d-md-none">`;
-
-            });
+        // Remove all active states
+        tabs.forEach(t => {
+            t.classList.remove("active");
+            t.querySelector(".eg-right-arrow").src = "./assets/black-arrow.png"; // default black
         });
 
-    </script>
+        // Add new active tab
+        tab.classList.add("active");
+        tab.querySelector(".eg-right-arrow").src = "./assets/right-arrow.png"; // white for active
+
+        // Change desktop image
+        let selected = tab.getAttribute("data-image");
+        if (image) {
+            image.style.opacity = "0";
+            setTimeout(() => {
+                image.src = tabImages[selected];
+                image.style.opacity = "1";
+            }, 200);
+        }
+
+        // Change mobile image
+        mobileBoxes.forEach(box => box.innerHTML = "");
+        mobileBoxes[index].innerHTML = `<img src="${tabImages[selected]}" class="img-fluid w-100 py-3 d-md-none">`;
+    });
+});
+</script>
+
+
+ 
 
 
     <!-- box switch  -->
